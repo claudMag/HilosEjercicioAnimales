@@ -1,16 +1,21 @@
 package CarreraAnimales;
 
-public class Carrera {
-    public static void main(String[] args) throws InterruptedException {
-        Marcador marcador = new Marcador();
+import java.util.concurrent.Semaphore;
 
-        HiloAnimal tortuga = new HiloAnimal("tortuga", Thread.MAX_PRIORITY, marcador);
-        HiloAnimal liebre = new HiloAnimal("liebre", Thread.MIN_PRIORITY, marcador);
-        HiloAnimal guepardo = new HiloAnimal("guepardo", Thread.NORM_PRIORITY, marcador);
+public class Carrera {
+    public static void main(String[] args)  {
+        Marcador marcador = new Marcador();
+        //1 proceso de la sección crítca
+        Semaphore semaforo = new Semaphore(1);
+
+        HiloAnimal tortuga = new HiloAnimal("tortuga", Thread.NORM_PRIORITY, marcador, semaforo);
+        HiloAnimal liebre = new HiloAnimal("liebre", Thread.NORM_PRIORITY, marcador, semaforo);
+        HiloAnimal guepardo = new HiloAnimal("guepardo", Thread.NORM_PRIORITY, marcador, semaforo);
 
         tortuga.start();
         liebre.start();
         guepardo.start();
+
 
     }
 }
